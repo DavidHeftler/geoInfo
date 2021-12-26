@@ -4,10 +4,16 @@ import data
 
 app = Flask(__name__)
 
+@app.route('/')
+def Nothing():
+    return 'nothing to see here, try adding \"/GeoInfo\"'
+
 
 @app.route('/GeoInfo')
 def AddEndPoint():
-    return 'for Geo information about an IP address, add \"/IpToGeoInfo/(the ip address)\"'
+    return 'for Geo information about an IP address, add \"/IpToGeoInfo/(the ip address)\".' \
+           'for all IP adresses of a for a given country initials, add' \
+           '\"/CountryIPs/(the country initials)'
 
 
 @app.route('/GeoInfo/IpToGeoInfo/<string:ip>')
