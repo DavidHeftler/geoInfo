@@ -16,11 +16,12 @@ def loadIpData():
     file = open(DB, 'r')
     reader = csv.reader(file)
     for row in reader:
-        if row[2] == "-":
-            continue
         from_, to, ID, name = int(row[0]), int(row[1]), row[2], row[3]
-        IPsInfo.append(((from_, to), (ID, name)))
-        IPsByCountry[ID].append(intToIp(from_) + ' - ' + intToIp(to))
+        if row[2] != "-":
+            IPsInfo.append(((from_, to), (ID, name)))
+            IPsByCountry[ID].append(intToIp(from_) + ' - ' + intToIp(to))
+        else:
+            IPsInfo.append(((from_, to), ("None", "None")))
     file.close()
 
 
