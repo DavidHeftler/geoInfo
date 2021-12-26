@@ -1,4 +1,4 @@
-from data import IPsInfo
+from data import IPsInfo, IPsByCountry
 from ipConversion import ipToInt
 import json
 
@@ -11,6 +11,13 @@ class GeoInfo:
         return json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4)
 
+class CountryAllIP:
+    def __init__(self, countryID):
+        self.countryID = countryID
+        self.countryIPs = IPsByCountry[countryID]
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
 def ipToGeoInfo(ipStr):
     intIp = ipToInt(ipStr)
@@ -32,4 +39,8 @@ def ipToGeoInfo(ipStr):
     return geoInfo
 
 
+def countryIPs(countryID):
+    if countryID not in IPsByCountry.keys():
+        return None
+    return CountryAllIP(countryID)
 

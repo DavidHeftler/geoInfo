@@ -1,5 +1,5 @@
 from flask import Flask
-import IpGeoInfo
+from IpGeoInfo import ipToGeoInfo, countryIPs
 import data
 
 app = Flask(__name__)
@@ -12,11 +12,18 @@ def AddEndPoint():
 
 @app.route('/GeoInfo/IpToGeoInfo/<string:ip>')
 def getIpData(ip):
-    info = IpGeoInfo.ipToGeoInfo(ip)
+    info = ipToGeoInfo(ip)
     if info is None:
         return "IP not found!"
     return info.toJSON()
 
+
+@app.route('/GeoInfo/CountryIPs/<string:countryID>')
+def getCountryIPs(countryID):
+    countryAllIPs = countryIPs(countryID)
+    if countryAllIPs is None:
+        return "Country not found!"
+    return countryAllIPs.toJSON()
 
 if __name__ == '__main__':
     data.loadIpData()
