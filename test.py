@@ -1,19 +1,21 @@
 import requests
 
-url = requests.get("http://127.0.0.1:5000/")
-print(url.text)
+url = "http://127.0.0.1:5000/"
 
-url = requests.get("http://127.0.0.1:5000/GeoInfo")
-print(url.text)
+response = requests.get(url)
+print(response.text)
 
-url = requests.get("http://127.0.0.1:5000/GeoInfo/IpToGeoInfo/10.10.10.10")
-text = url.text
-print(text)
+response = requests.get(url +"/GeoInfo")
+print(response.text)
 
+response = requests.get(url + "/GeoInfo/IpToGeoInfo/10.10.10.10")
+print(response.text)
 
-url = requests.get("http://127.0.0.1:5000/GeoInfo/CountryIPs/IL")
-text = url.text
-print(text)
+response = requests.get(url + "/GeoInfo/IpToGeoInfo/293.75.41.50")
+print(response.text)
+
+response = requests.get(url + "/GeoInfo/CountryIPs/DE")
+print(response.text)
 
 
 

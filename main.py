@@ -12,7 +12,7 @@ def Nothing():
 @app.route('/GeoInfo')
 def AddEndPoint():
     return 'for Geo information about an IP address, add \"/IpToGeoInfo/(the ip address)\".' \
-           'for all IP adresses of a for a given country initials, add' \
+           'for all IP addresses of a country, add' \
            '\"/CountryIPs/(the country initials)'
 
 
@@ -20,7 +20,9 @@ def AddEndPoint():
 def getIpData(ip):
     info = ipToGeoInfo(ip)
     if info is None:
-        return "IP not found!"
+        return "no information about this IP"
+    if info is False:
+        return "IP not legal!"
     return info.toJSON()
 
 
@@ -30,6 +32,7 @@ def getCountryIPs(countryID):
     if countryAllIPs is None:
         return "Country not found!"
     return countryAllIPs.toJSON()
+
 
 if __name__ == '__main__':
     data.loadIpData()

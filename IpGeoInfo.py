@@ -1,5 +1,5 @@
 from data import IPsInfo, IPsByCountry
-from ipConversion import ipToInt
+from ipConversion import ipToInt, ipIsLegal
 import json
 
 
@@ -13,15 +13,15 @@ class GeoInfo:
 
 class CountryAllIP:
     def __init__(self, countryID):
-        self.countryID = countryID
         self.countryIPs = IPsByCountry[countryID]
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4)
 
 def ipToGeoInfo(ipStr):
+    if not (ipIsLegal(ipStr)):
+        return False
     intIp = ipToInt(ipStr)
-    print(intIp)
     begin = 0
     end = len(IPsInfo) - 1
     geoInfo = None
@@ -35,7 +35,7 @@ def ipToGeoInfo(ipStr):
         if intIp < _from:
             end = mid - 1
         if intIp > to:
-            begin = mid+1
+            begin = mid + 1
     return geoInfo
 
 
