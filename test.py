@@ -17,7 +17,7 @@ print(response.text)
 response = requests.get(url + "/GeoInfo/CountryIPs/DE")
 print(response.text)
 
-response = requests.get(url + "/GeoInfo/CountryIPs/EE")
+response = requests.get(url + "/GeoInfo/CountryIPs/KK")
 print(response.text)
 
 
