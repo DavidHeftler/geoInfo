@@ -1,28 +1,38 @@
 from flask import Flask
 from IpGeoInfo import ipToGeoInfo, countryIPs
 import data
+import json
 
 app = Flask(__name__)
 
+class Error:
+    def __init__(self, errorName):
+        self.errorName = errorName
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
+
+
 @app.route('/')
 def Nothing():
-    return 'nothing to see here, try adding \"/GeoInfo\"'
+    return Error('nothing to see here, try adding "/GeoInfo"').toJSON()
 
 
 @app.route('/GeoInfo')
 def AddEndPoint():
-    return 'for Geo information about an IP address, add \"/IpToGeoInfo/(the ip address)\".' \
-           'for all IP addresses of a country, add' \
-           '\"/CountryIPs/(the country initials)'
+    return Error('for Geo information about an IP address, add "/IpToGeoInfo/(the ip address)". '
+                 'for all IP addresses of a country, add' 
+                 '"/CountryIPs/(the country initials)').toJSON()
 
 
 @app.route('/GeoInfo/IpToGeoInfo/<string:ip>')
 def getIpData(ip):
     info = ipToGeoInfo(ip)
     if info is None:
-        return "no information about this IP"
+        return Error("no information about this IP").toJSON()
     if info is False:
-        return "IP not legal!"
+        return Error("IP not legal!").toJSON()
     return info.toJSON()
 
 
@@ -30,7 +40,7 @@ def getIpData(ip):
 def getCountryIPs(countryID):
     countryAllIPs = countryIPs(countryID)
     if countryAllIPs is None:
-        return "Country not found!"
+        return Error("Country not found!").toJSON()
     return countryAllIPs.toJSON()
 
 
